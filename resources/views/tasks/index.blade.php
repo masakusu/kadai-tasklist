@@ -10,7 +10,7 @@
                 <tr>
                     <th>id</th>
                     <th>ステータス</th>
-                    <th>タスク</th>
+                    <th>内容</th>
                 </tr>
             </thead>
             <tbody>

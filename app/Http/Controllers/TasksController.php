@@ -18,7 +18,7 @@ class TasksController extends Controller
         $data = [];
         if (\Auth::check()) {
             $user = \Auth::user();
-            $tasks = $user->microposts()->orderBy('created_at', 'desc')->paginate(10);
+            $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
             
             $data = [
                 'user' => $user,
@@ -52,13 +52,12 @@ class TasksController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'user_id' => 'required|max:191',
             'status' => 'required|max:10',
             'content' => 'required|max:191',
         ]);
         
         $task = new Task;
-        $task->user_id = $request->user_id;
+        $task->user_id = \Auth::user()->id;
         $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
@@ -111,6 +110,7 @@ class TasksController extends Controller
         ]);
         
         $task = Task::find($id);
+        $task->user_id = \Auth::user()->id;
         $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
